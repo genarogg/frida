@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Healthcheck | Genarogg</title>
+    <meta name="description" content="Healthcheck" />
+    <meta name="robots" content="noindex" />
+
+    <link rel="shortcut icon" href="/isotipo.svg" type="image/x-icon" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;800&family=Poppins:wght@400;600&display=swap"
+        rel="stylesheet" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Albert+Sans:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet" />
+
+    <link rel="stylesheet" href="/css/healthcheck.css" />
+</head>
+
+<body>
+    <div id="app">
+        <!-- Loading screen -->
+        <div id="loading" class="loading">
+            <svg class="loading-spinner" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
+            </svg>
+            <p>Loading server metrics...</p>
+        </div>
+
+        <!-- Dashboard content -->
+        <div id="dashboard" class="container" style="display: none;">
+            <div class="header">
+                <div class="header-left">
+                    <svg class="icon-large" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                        <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                        <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                        <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                    </svg>
+                    <div>
+                        <h1 class="title">Server Health Dashboard</h1>
+                        <p class="subtitle">Real-time performance monitoring</p>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <div class="switch-container">
+                        <label class="switch">
+                            <input type="checkbox" id="dark-mode-toggle">
+                            <span class="slider"></span>
+                        </label>
+                        <span id="theme-label">Light</span>
+                    </div>
+
+                    <button id="refresh-button" class="button button-primary">
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38"></path>
+                        </svg>
+                        Refresh Metrics
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                <!-- CPU Usage Card -->
+                <div class="card card-purple">
+                    <div class="card-header">
+                        <h3 class="card-title">CPU Usage</h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="var(--purple-color)" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                            <rect x="9" y="9" width="6" height="6"></rect>
+                            <line x1="9" y1="2" x2="9" y2="4"></line>
+                            <line x1="15" y1="2" x2="15" y2="4"></line>
+                            <line x1="9" y1="20" x2="9" y2="22"></line>
+                            <line x1="15" y1="20" x2="15" y2="22"></line>
+                            <line x1="20" y1="9" x2="22" y2="9"></line>
+                            <line x1="20" y1="14" x2="22" y2="14"></line>
+                            <line x1="2" y1="9" x2="4" y2="9"></line>
+                            <line x1="2" y1="14" x2="4" y2="14"></line>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <div id="cpu-value" class="metric-value">0.00s</div>
+                        <div class="progress-container">
+                            <div id="cpu-progress" class="progress-bar progress-bar-purple" style="width: 0%"></div>
+                            <div class="shimmer"></div>
+                        </div>
+                        <p class="metric-label">Total CPU time spent (user + system)</p>
+                        <div class="metric-details">
+                            <div class="metric-detail">
+                                <span>User:</span>
+                                <span id="cpu-user" class="font-bold">0.00s</span>
+                            </div>
+                            <div class="metric-detail">
+                                <span>System:</span>
+                                <span id="cpu-system" class="font-bold">0.00s</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Memory Usage Card -->
+                <div class="card card-blue">
+                    <div class="card-header">
+                        <h3 class="card-title">Memory Usage</h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="var(--blue-color)" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path d="M6 19v-3"></path>
+                            <path d="M10 19v-3"></path>
+                            <path d="M14 19v-3"></path>
+                            <path d="M18 19v-3"></path>
+                            <path d="M8 11V9"></path>
+                            <path d="M16 11V9"></path>
+                            <path d="M12 11V9"></path>
+                            <path d="M2 15h20"></path>
+                            <path d="M2 7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7z"></path>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <div id="memory-value" class="metric-value">0.00 MB</div>
+                        <div class="progress-container">
+                            <div id="memory-progress" class="progress-bar progress-bar-blue" style="width: 80%"></div>
+                            <div class="shimmer"></div>
+                        </div>
+                        <p class="metric-label">Resident memory in use</p>
+                        <div class="metric-details">
+                            <div class="metric-detail">
+                                <span>External:</span>
+                                <span id="external-memory" class="font-bold">0.00 MB</span>
+                            </div>
+                            <div class="metric-detail">
+                                <span>Active Resources:</span>
+                                <span id="active-resources" class="font-bold">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Loop Lag Card -->
+                <div class="card card-emerald">
+                    <div class="card-header">
+                        <h3 class="card-title">Event Loop Lag</h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="var(--emerald-color)" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <div id="event-loop-value" class="metric-value">0.00ms</div>
+                        <div class="progress-container">
+                            <div id="event-loop-progress" class="progress-bar progress-bar-emerald" style="width: 0%">
+                            </div>
+                            <div class="shimmer"></div>
+                        </div>
+                        <p class="metric-label">Current event loop lag</p>
+                        <div class="metric-details">
+                            <div class="metric-detail">
+                                <span>Max:</span>
+                                <span id="event-loop-max" class="font-bold">0.00ms</span>
+                            </div>
+                            <div class="metric-detail">
+                                <span>Min:</span>
+                                <span id="event-loop-min" class="font-bold">0.00ms</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Heap Usage Card -->
+                <div class="card card-rose">
+                    <div class="card-header">
+                        <h3 class="card-title">Heap Usage</h3>
+                        <svg class="icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                            fill="none" stroke="var(--rose-color)" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round">
+                            <path
+                                d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="card-content">
+                        <div id="heap-value" class="metric-value">0.00 MB</div>
+                        <div class="progress-container">
+                            <div id="heap-progress" class="progress-bar progress-bar-rose" style="width: 0%"></div>
+                            <div class="shimmer"></div>
+                        </div>
+                        <p class="metric-label">Node.js heap memory used</p>
+                        <div class="metric-details">
+                            <div class="metric-detail">
+                                <span>Total:</span>
+                                <span id="heap-total" class="font-bold">0.00 MB</span>
+                            </div>
+                            <div class="metric-detail">
+                                <span>Usage:</span>
+                                <span id="heap-percentage" class="font-bold">0.0%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tabs">
+                <div class="tabs-list">
+                    <div class="tab-trigger active" data-tab="overview">Overview</div>
+                    <div class="tab-trigger" data-tab="http">HTTP Requests</div>
+                    <div class="tab-trigger" data-tab="gc">Garbage Collection</div>
+                    <div class="tab-trigger" data-tab="resources">Resources</div>
+                </div>
+
+                <!-- Overview Tab -->
+                <div id="overview-tab" class="tab-content active">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">System Overview</h3>
+                                <p class="card-description">Detailed information about the Node.js runtime</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+                                <div>
+                                    <h3 class="font-semibold mb-2">Node.js Version</h3>
+                                    <div id="nodejs-version" class="text-sm">v0.0.0</div>
+                                    <div id="nodejs-version-details" class="text-xs text-muted-foreground mt-1">
+                                        Major: 0, Minor: 0, Patch: 0
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="font-semibold mb-2">Process Uptime</h3>
+                                    <div id="process-uptime" class="text-sm">0s</div>
+                                    <div id="process-start-time" class="text-xs text-muted-foreground mt-1">
+                                        Started: N/A
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="font-semibold mb-2">Active Handles & Requests</h3>
+                                    <div id="active-handles-requests" class="text-sm">
+                                        Handles: 0, Requests: 0
+                                    </div>
+                                    <div id="total-resources" class="text-xs text-muted-foreground mt-1">Total
+                                        Resources: 0</div>
+                                </div>
+                            </div>
+
+                            <div class="separator"></div>
+
+                            <div>
+                                <h3 class="font-semibold mb-4">Event Loop Statistics</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                                    <div class="box">
+                                        <div class="box-label">Mean</div>
+                                        <div id="event-loop-mean" class="box-value">0.00ms</div>
+                                    </div>
+
+                                    <div class="box">
+                                        <div class="box-label">P50</div>
+                                        <div id="event-loop-p50" class="box-value">0.00ms</div>
+                                    </div>
+
+                                    <div class="box">
+                                        <div class="box-label">P90</div>
+                                        <div id="event-loop-p90" class="box-value">0.00ms</div>
+                                    </div>
+
+                                    <div class="box">
+                                        <div class="box-label">P99</div>
+                                        <div id="event-loop-p99" class="box-value">0.00ms</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HTTP Requests Tab -->
+                <div id="http-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">HTTP Requests</h3>
+                                <p class="card-description">HTTP request metrics and performance data</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="mb-6">
+                                <h3 class="font-semibold mb-2">Request Summary</h3>
+                                <div class="grid grid-cols-1 md:grid-cols-3">
+                                    <div class="box">
+                                        <div class="box-label">Total Requests</div>
+                                        <div id="total-requests" class="metric-value">0</div>
+                                    </div>
+
+                                    <div class="box">
+                                        <div class="box-label">Success Rate</div>
+                                        <div id="success-rate" class="metric-value">0%</div>
+                                    </div>
+
+                                    <div class="box">
+                                        <div class="box-label">Avg Response Time</div>
+                                        <div id="avg-response-time" class="metric-value">0ms</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h3 class="font-semibold mb-4">Request Details</h3>
+                            <div class="table">
+                                <div class="table-header" style="grid-template-columns: repeat(4, 1fr);">
+                                    <div>Method</div>
+                                    <div>Route</div>
+                                    <div>Status</div>
+                                    <div>Count</div>
+                                </div>
+                                <div id="http-requests-table">
+                                    <!-- HTTP requests will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Garbage Collection Tab -->
+                <div id="gc-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Garbage Collection</h3>
+                                <p class="card-description">Garbage collection statistics and memory management</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="grid grid-cols-1 md:grid-cols-3">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Minor GC</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="grid gap-2">
+                                            <div class="metric-detail">
+                                                <span>Count:</span>
+                                                <span id="minor-gc-count" class="font-bold">0</span>
+                                            </div>
+                                            <div class="metric-detail">
+                                                <span>Total Duration:</span>
+                                                <span id="minor-gc-duration" class="font-bold">0.00ms</span>
+                                            </div>
+                                            <div class="metric-detail">
+                                                <span>Avg Duration:</span>
+                                                <span id="minor-gc-avg" class="font-bold">0.00ms</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Incremental GC</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="grid gap-2">
+                                            <div class="metric-detail">
+                                                <span>Count:</span>
+                                                <span id="incremental-gc-count" class="font-bold">0</span>
+                                            </div>
+                                            <div class="metric-detail">
+                                                <span>Total Duration:</span>
+                                                <span id="incremental-gc-duration" class="font-bold">0.00ms</span>
+                                            </div>
+                                            <div class="metric-detail">
+                                                <span>Avg Duration:</span>
+                                                <span id="incremental-gc-avg" class="font-bold">0.00ms</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Major GC</h3>
+                                    </div>
+                                    <div class="card-content">
+                                        <div class="grid gap-2">
+                                            <div class="metric-detail">
+                                                <span>Count:</span>
+                                                <span id="major-gc-count" class="font-bold">0</span>
+                                            </div>
+                                            <div class="metric-detail">
+                                                <span>Total Duration:</span>
+                                                <span id="major-gc-duration" class="font-bold">0.00ms</span>
+                                            </div>
+                                            <div class="metric-detail">
+                                                <span>Avg Duration:</span>
+                                                <span id="major-gc-avg" class="font-bold">0.00ms</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="separator"></div>
+
+                            <h3 class="font-semibold mb-4">Heap Space Details</h3>
+                            <div class="table">
+                                <div class="table-header" style="grid-template-columns: repeat(4, 1fr);">
+                                    <div>Space</div>
+                                    <div>Total (MB)</div>
+                                    <div>Used (MB)</div>
+                                    <div>Available (MB)</div>
+                                </div>
+                                <div id="heap-spaces-table">
+                                    <!-- Heap spaces will be inserted here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resources Tab -->
+                <div id="resources-tab" class="tab-content">
+                    <div class="card">
+                        <div class="card-header">
+                            <div>
+                                <h3 class="card-title">Active Resources</h3>
+                                <p class="card-description">Currently active handles, requests and resources</p>
+                            </div>
+                        </div>
+                        <div class="card-content">
+                            <div class="grid grid-cols-1 md:grid-cols-2">
+                                <div>
+                                    <h3 class="font-semibold mb-4">Active Handles</h3>
+                                    <div class="table">
+                                        <div class="table-header" style="grid-template-columns: repeat(2, 1fr);">
+                                            <div>Type</div>
+                                            <div>Count</div>
+                                        </div>
+                                        <div id="active-handles-table">
+                                            <!-- Active handles will be inserted here -->
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h3 class="font-semibold mb-4">Active Resources</h3>
+                                    <div class="table">
+                                        <div class="table-header" style="grid-template-columns: repeat(2, 1fr);">
+                                            <div>Type</div>
+                                            <div>Count</div>
+                                        </div>
+                                        <div id="active-resources-table">
+                                            <!-- Active resources will be inserted here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mock data for development - this would be replaced with actual API data
+        const mockData =  <%- JSON.stringify(data) %>
+        console.log(mockData);
+
+        const loading = document.getElementById('loading');
+        const dashboard = document.getElementById('dashboard');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const themeLabel = document.getElementById('theme-label');
+        const refreshButton = document.getElementById('refresh-button');
+        const tabTriggers = document.querySelectorAll('.tab-trigger');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        // Helper functions
+        function formatUptime(seconds) {
+            const days = Math.floor(seconds / (3600 * 24));
+            const hours = Math.floor((seconds % (3600 * 24)) / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
+            const secs = Math.floor(seconds % 60);
+
+            if (days > 0) {
+                return `${days}d ${hours}h ${minutes}m ${secs}s`;
+            } else if (hours > 0) {
+                return `${hours}h ${minutes}m ${secs}s`;
+            } else if (minutes > 0) {
+                return `${minutes}m ${secs}s`;
+            } else {
+                return `${secs}s`;
+            }
+        }
+
+        function calculateSuccessRate(requests) {
+            const total = requests.reduce((acc, curr) => acc + curr.value, 0);
+            const success = requests
+                .filter((req) => req.labels.status_code.startsWith("2"))
+                .reduce((acc, curr) => acc + curr.value, 0);
+
+            return total === 0 ? 100 : Math.round((success / total) * 100);
+        }
+
+        function calculateAvgResponseTime(metrics) {
+            const sumValues = metrics.http_request_duration_seconds_sum?.values || [];
+            const countValues = metrics.http_request_duration_seconds_count?.values || [];
+
+            let totalSum = 0;
+            let totalCount = 0;
+
+            sumValues.forEach((item) => {
+                totalSum += item.value;
+            });
+
+            countValues.forEach((item) => {
+                totalCount += item.value;
+            });
+
+            return totalCount === 0 ? 0 : ((totalSum / totalCount) * 1000).toFixed(2);
+        }
+
+        function calculateAvgGCDuration(metrics, type) {
+            const sum = metrics[`nodejs_gc_duration_seconds_sum`].values.find((v) => v.labels.kind === type)?.value || 0;
+            const count = metrics[`nodejs_gc_duration_seconds_count`].values.find((v) => v.labels.kind === type)?.value || 0;
+
+            return count === 0 ? 0 : ((sum / count) * 1000).toFixed(2);
+        }
+
+        function getHeapSpaceValue(values, spaceType) {
+            const found = values.find((v) => v.labels.space === spaceType);
+            return found ? found.value : 0;
+        }
+
+        function formatSpaceName(name) {
+            return name.replace(/_/g, " ");
+        }
+
+        // Initialize dark mode
+        function initDarkMode() {
+            const storedDarkMode = localStorage.getItem("darkMode");
+            if (storedDarkMode) {
+                const isDarkMode = storedDarkMode === "true";
+                darkModeToggle.checked = isDarkMode;
+                document.documentElement.classList.toggle('dark', isDarkMode);
+                themeLabel.textContent = isDarkMode ? "Dark" : "Light";
+            } else {
+                const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+                darkModeToggle.checked = prefersDark;
+                document.documentElement.classList.toggle('dark', prefersDark);
+                themeLabel.textContent = prefersDark ? "Dark" : "Light";
+            }
+        }
+
+        // Toggle dark mode
+        darkModeToggle.addEventListener('change', function () {
+            const isDarkMode = this.checked;
+            document.documentElement.classList.toggle('dark', isDarkMode);
+            themeLabel.textContent = isDarkMode ? "Dark" : "Light";
+            localStorage.setItem("darkMode", isDarkMode.toString());
+        });
+
+        // Tab switching
+        tabTriggers.forEach(trigger => {
+            trigger.addEventListener('click', () => {
+                const tabId = trigger.getAttribute('data-tab');
+
+                // Update active tab trigger
+                tabTriggers.forEach(t => t.classList.remove('active'));
+                trigger.classList.add('active');
+
+                // Update active tab content
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                    if (content.id === `${tabId}-tab`) {
+                        content.classList.add('active');
+                    }
+                });
+            });
+        });
+
+        // Refresh metrics
+        refreshButton.addEventListener('click', loadMetrics);
+
+        // Load metrics function
+        function loadMetrics() {
+            // In a real app, this would fetch from your API
+            // For now, we'll use the mock data and simulate a loading delay
+            loading.style.display = 'flex';
+            dashboard.style.display = 'none';
+
+            setTimeout(() => {
+                updateDashboard(mockData);
+                loading.style.display = 'none';
+                dashboard.style.display = 'block';
+            }, 1000);
+        }
+
+        // Update dashboard with metrics
+        function updateDashboard(metrics) {
+            // Extract key metrics
+            const cpuUserSeconds = metrics.process_cpu_user_seconds_total.values[0].value;
+            const cpuSystemSeconds = metrics.process_cpu_system_seconds_total.values[0].value;
+            const cpuTotalSeconds = metrics.process_cpu_seconds_total.values[0].value;
+
+            const memoryBytes = metrics.process_resident_memory_bytes.values[0].value;
+            const memoryMB = (memoryBytes / (1024 * 1024)).toFixed(2);
+
+            const eventLoopLag = metrics.nodejs_eventloop_lag_seconds.values[0].value * 1000; // Convert to ms
+            const eventLoopLagMax = metrics.nodejs_eventloop_lag_max_seconds.values[0].value * 1000; // Convert to ms
+            const eventLoopLagMin = metrics.nodejs_eventloop_lag_min_seconds.values[0].value * 1000; // Convert to ms
+
+            const heapSizeUsed = metrics.nodejs_heap_size_used_bytes.values[0].value;
+            const heapSizeTotal = metrics.nodejs_heap_size_total_bytes.values[0].value;
+            const heapSizeUsedMB = (heapSizeUsed / (1024 * 1024)).toFixed(2);
+            const heapSizeTotalMB = (heapSizeTotal / (1024 * 1024)).toFixed(2);
+
+            const activeHandles = metrics.nodejs_active_handles_total.values[0].value;
+            const activeRequests = metrics.nodejs_active_requests_total.values[0].value;
+            const activeResources = metrics.nodejs_active_resources_total.values[0].value;
+
+            const externalMemory = metrics.nodejs_external_memory_bytes.values[0].value;
+            const externalMemoryMB = (externalMemory / (1024 * 1024)).toFixed(2);
+
+            // Calculate percentages for progress bars
+            const heapPercentage = (heapSizeUsed / heapSizeTotal) * 100;
+            const eventLoopLagPercentage = Math.min((eventLoopLag / 50) * 100, 100); // Assuming 50ms is "full"
+            const cpuPercentage = Math.min((cpuTotalSeconds / 10) * 100, 100); // Assuming 10s is "full"
+
+            // HTTP request data
+            const httpRequests = metrics.http_request_duration_seconds_count?.values || [];
+            const totalRequests = httpRequests.reduce((acc, curr) => acc + curr.value, 0);
+
+            // Update CPU card
+            document.getElementById('cpu-value').textContent = `${cpuTotalSeconds.toFixed(2)}s`;
+            document.getElementById('cpu-progress').style.width = `${cpuPercentage}%`;
+            document.getElementById('cpu-user').textContent = `${cpuUserSeconds.toFixed(2)}s`;
+            document.getElementById('cpu-system').textContent = `${cpuSystemSeconds.toFixed(2)}s`;
+
+            // Update Memory card
+            document.getElementById('memory-value').textContent = `${memoryMB} MB`;
+            document.getElementById('external-memory').textContent = `${externalMemoryMB} MB`;
+            document.getElementById('active-resources').textContent = activeResources;
+
+            // Update Event Loop card
+            document.getElementById('event-loop-value').textContent = `${eventLoopLag.toFixed(2)}ms`;
+            document.getElementById('event-loop-progress').style.width = `${eventLoopLagPercentage}%`;
+            if (eventLoopLag > 20) {
+                document.getElementById('event-loop-progress').classList.remove('progress-bar-emerald');
+                document.getElementById('event-loop-progress').classList.add('progress-bar-red');
+            } else {
+                document.getElementById('event-loop-progress').classList.remove('progress-bar-red');
+                document.getElementById('event-loop-progress').classList.add('progress-bar-emerald');
+            }
+            document.getElementById('event-loop-max').textContent = `${eventLoopLagMax.toFixed(2)}ms`;
+            document.getElementById('event-loop-min').textContent = `${eventLoopLagMin.toFixed(2)}ms`;
+
+            // Update Heap card
+            document.getElementById('heap-value').textContent = `${heapSizeUsedMB} MB`;
+            document.getElementById('heap-progress').style.width = `${heapPercentage}%`;
+            if (heapPercentage > 80) {
+                document.getElementById('heap-progress').classList.remove('progress-bar-rose');
+                document.getElementById('heap-progress').classList.add('progress-bar-red');
+            } else {
+                document.getElementById('heap-progress').classList.remove('progress-bar-red');
+                document.getElementById('heap-progress').classList.add('progress-bar-rose');
+            }
+            document.getElementById('heap-total').textContent = `${heapSizeTotalMB} MB`;
+            document.getElementById('heap-percentage').textContent = `${heapPercentage.toFixed(1)}%`;
+
+            // Update Overview tab
+            document.getElementById('nodejs-version').textContent = metrics.nodejs_version_info.values[0].labels.version;
+            document.getElementById('nodejs-version-details').textContent = `Major: ${metrics.nodejs_version_info.values[0].labels.major}, Minor: ${metrics.nodejs_version_info.values[0].labels.minor}, Patch: ${metrics.nodejs_version_info.values[0].labels.patch}`;
+
+            const uptime = formatUptime(Date.now() / 1000 - metrics.process_start_time_seconds.values[0].value);
+            document.getElementById('process-uptime').textContent = uptime;
+            document.getElementById('process-start-time').textContent = `Started: ${new Date(metrics.process_start_time_seconds.values[0].value * 1000).toLocaleString()}`;
+
+            document.getElementById('active-handles-requests').textContent = `Handles: ${activeHandles}, Requests: ${activeRequests}`;
+            document.getElementById('total-resources').textContent = `Total Resources: ${activeResources}`;
+
+            document.getElementById('event-loop-mean').textContent = `${(metrics.nodejs_eventloop_lag_mean_seconds.values[0].value * 1000).toFixed(2)}ms`;
+            document.getElementById('event-loop-p50').textContent = `${(metrics.nodejs_eventloop_lag_p50_seconds.values[0].value * 1000).toFixed(2)}ms`;
+            document.getElementById('event-loop-p90').textContent = `${(metrics.nodejs_eventloop_lag_p90_seconds.values[0].value * 1000).toFixed(2)}ms`;
+            document.getElementById('event-loop-p99').textContent = `${(metrics.nodejs_eventloop_lag_p99_seconds.values[0].value * 1000).toFixed(2)}ms`;
+
+            // Update HTTP Requests tab
+            document.getElementById('total-requests').textContent = totalRequests;
+            document.getElementById('success-rate').textContent = `${calculateSuccessRate(httpRequests)}%`;
+            document.getElementById('avg-response-time').textContent = `${calculateAvgResponseTime(metrics)}ms`;
+
+            const httpRequestsTable = document.getElementById('http-requests-table');
+            httpRequestsTable.innerHTML = '';
+            httpRequests.forEach((req) => {
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                row.style.gridTemplateColumns = 'repeat(4, 1fr)';
+
+                const methodCell = document.createElement('div');
+                methodCell.textContent = req.labels.method;
+
+                const routeCell = document.createElement('div');
+                routeCell.textContent = req.labels.route;
+
+                const statusCell = document.createElement('div');
+                const statusBadge = document.createElement('span');
+                statusBadge.className = `badge ${req.labels.status_code.startsWith('2') ? 'badge-default' : 'badge-destructive'}`;
+                statusBadge.textContent = req.labels.status_code;
+                statusCell.appendChild(statusBadge);
+
+                const countCell = document.createElement('div');
+                countCell.textContent = req.value;
+
+                row.appendChild(methodCell);
+                row.appendChild(routeCell);
+                row.appendChild(statusCell);
+                row.appendChild(countCell);
+
+                httpRequestsTable.appendChild(row);
+            });
+
+            // Update Garbage Collection tab
+            document.getElementById('minor-gc-count').textContent = metrics.nodejs_gc_duration_seconds_count.values.find(v => v.labels.kind === 'minor')?.value || 0;
+            document.getElementById('minor-gc-duration').textContent = `${((metrics.nodejs_gc_duration_seconds_sum.values.find(v => v.labels.kind === 'minor')?.value || 0) * 1000).toFixed(2)}ms`;
+            document.getElementById('minor-gc-avg').textContent = `${calculateAvgGCDuration(metrics, 'minor')}ms`;
+
+            document.getElementById('incremental-gc-count').textContent = metrics.nodejs_gc_duration_seconds_count.values.find(v => v.labels.kind === 'incremental')?.value || 0;
+            document.getElementById('incremental-gc-duration').textContent = `${((metrics.nodejs_gc_duration_seconds_sum.values.find(v => v.labels.kind === 'incremental')?.value || 0) * 1000).toFixed(2)}ms`;
+            document.getElementById('incremental-gc-avg').textContent = `${calculateAvgGCDuration(metrics, 'incremental')}ms`;
+
+            document.getElementById('major-gc-count').textContent = metrics.nodejs_gc_duration_seconds_count.values.find(v => v.labels.kind === 'major')?.value || 0;
+            document.getElementById('major-gc-duration').textContent = `${((metrics.nodejs_gc_duration_seconds_sum.values.find(v => v.labels.kind === 'major')?.value || 0) * 1000).toFixed(2)}ms`;
+            document.getElementById('major-gc-avg').textContent = `${calculateAvgGCDuration(metrics, 'major')}ms`;
+
+            const heapSpacesTable = document.getElementById('heap-spaces-table');
+            heapSpacesTable.innerHTML = '';
+
+            metrics.nodejs_heap_space_size_total_bytes.values
+                .filter(v => v.labels.space !== 'read_only')
+                .forEach(space => {
+                    const spaceType = space.labels.space;
+                    const total = space.value / (1024 * 1024);
+                    const used = getHeapSpaceValue(metrics.nodejs_heap_space_size_used_bytes.values, spaceType) / (1024 * 1024);
+                    const available = getHeapSpaceValue(metrics.nodejs_heap_space_size_available_bytes.values, spaceType) / (1024 * 1024);
+
+                    const row = document.createElement('div');
+                    row.className = 'table-row';
+                    row.style.gridTemplateColumns = 'repeat(4, 1fr)';
+
+                    const nameCell = document.createElement('div');
+                    nameCell.textContent = formatSpaceName(spaceType);
+                    nameCell.style.textTransform = 'capitalize';
+
+                    const totalCell = document.createElement('div');
+                    totalCell.textContent = total.toFixed(2);
+
+                    const usedCell = document.createElement('div');
+                    usedCell.textContent = used.toFixed(2);
+
+                    const availableCell = document.createElement('div');
+                    availableCell.textContent = available.toFixed(2);
+
+                    row.appendChild(nameCell);
+                    row.appendChild(totalCell);
+                    row.appendChild(usedCell);
+                    row.appendChild(availableCell);
+
+                    heapSpacesTable.appendChild(row);
+                });
+
+            // Update Resources tab
+            const activeHandlesTable = document.getElementById('active-handles-table');
+            activeHandlesTable.innerHTML = '';
+
+            metrics.nodejs_active_handles.values.forEach(handle => {
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                row.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+                const typeCell = document.createElement('div');
+                typeCell.textContent = handle.labels.type;
+
+                const countCell = document.createElement('div');
+                countCell.textContent = handle.value;
+
+                row.appendChild(typeCell);
+                row.appendChild(countCell);
+
+                activeHandlesTable.appendChild(row);
+            });
+
+            const activeResourcesTable = document.getElementById('active-resources-table');
+            activeResourcesTable.innerHTML = '';
+
+            metrics.nodejs_active_resources.values.forEach(resource => {
+                const row = document.createElement('div');
+                row.className = 'table-row';
+                row.style.gridTemplateColumns = 'repeat(2, 1fr)';
+
+                const typeCell = document.createElement('div');
+                typeCell.textContent = resource.labels.type;
+
+                const countCell = document.createElement('div');
+                countCell.textContent = resource.value;
+
+                row.appendChild(typeCell);
+                row.appendChild(countCell);
+
+                activeResourcesTable.appendChild(row);
+            });
+        }
+
+        // Initialize the dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
+            loadMetrics();
+        });
+    </script>
+</body>
+
+</html>

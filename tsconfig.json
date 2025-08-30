@@ -1,0 +1,42 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "ES2020",
+    "jsx": "react-jsx",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/types"
+    ],
+
+    "baseUrl": "./",
+    "paths": {
+      "@env": ["./env.ts"],
+      "@/*": ["./src/client/*"],
+      "@fn": ["src/server/functions"]
+    },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "incremental": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+  "include": [
+    "*.ts",
+    "**/**/*.ts",
+    "**/**/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.jsx",
+    "csv/csvReader.js",
+    "prisma/changeProvider.js",
+  ],
+  "exclude": [
+    "node_modules",
+    "build",
+  ]
+}

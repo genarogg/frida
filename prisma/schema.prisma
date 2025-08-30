@@ -1,0 +1,51 @@
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id       Int        @id @default(autoincrement())
+  name     String
+  email    String     @unique
+  password String
+  Bitacora Bitacora[]
+  rol      Rol        @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Bitacora {
+  id        Int              @id @default(autoincrement())
+  usuarioId Int
+  usuario   Usuario          @relation(fields: [usuarioId], references: [id])
+  accion    String
+  type      AccionesBitacora
+  ip        String
+  hora      DateTime         @default(now())
+  fecha     DateTime         @updatedAt
+  mensaje   String?
+}
+
+enum AccionesBitacora {
+  LOGIN
+  CREATE_ADMIN
+  CREATE_USER
+  UPDATE_ADMIN
+  UPDATE_USER
+  DELETE_ADMIN
+  DELETE_USER
+  VIEW
+  ERROR
+}
+
+enum Rol {
+  ADMIN
+  USER
+  ASISTENTE
+  CLIENTE
+}

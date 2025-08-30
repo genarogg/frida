@@ -1,0 +1,20 @@
+# Nixpacks configuration for Fastify + Vite + React
+
+# Selecciona el lenguaje principal
+language = "nodejs@20"
+
+# Instala dependencias
+[phases.install]
+cmds = [
+  "npm install"
+]
+
+# Compila el cliente si tienes build
+[phases.build]
+cmds = [
+  "npm run build"
+]
+
+# Comando para iniciar el servidor
+[start]
+cmd = "npm start"
