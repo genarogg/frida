@@ -1,5 +1,6 @@
-import healthcheck from "./healthcheck";
+// import healthcheck from "./healthcheck";
+import uploadRouter from "./upload"
 
 export {
-    healthcheck
+    uploadRouter
 }

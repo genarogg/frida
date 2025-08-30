@@ -5,7 +5,7 @@ import colors from "colors";
 import 'dotenv/config';
 
 const { PORT } = process.env;
-const server: FastifyInstance = Fastify({ logger: true})
+const server: FastifyInstance = Fastify({ logger: true })
 
 import {
   dbConection,
@@ -36,6 +36,8 @@ const registerPlugins = async () => {
     await compressFastify(server);
   }
 }
+import { uploadRouter } from "./src/server/routers/index"
+server.register(uploadRouter, { prefix: '/' })
 
 import tack from "./src/server/tasks"
 

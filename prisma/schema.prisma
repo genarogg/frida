@@ -9,14 +9,22 @@ datasource db {
 }
 
 model Usuario {
-  id       Int        @id @default(autoincrement())
-  name     String
-  email    String     @unique
-  password String
-  Bitacora Bitacora[]
-  rol      Rol        @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            Int              @id @default(autoincrement())
+  username      String           @unique
+  name          String
+  email         String           @unique
+  password      String
+  avatar        String?
+  carpetaRootId Int?
+  carpetaRoot   Carpeta?         @relation("CarpetaRoot", fields: [carpetaRootId], references: [id])
+  bitacoras     Bitacora[]
+  carpetas      UsuarioCarpeta[]
+  archivos      UsuarioArchivo[]
+  rol           Rol              @default(USER)
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@map("usuario")
 }
 
 model Bitacora {
@@ -29,6 +37,75 @@ model Bitacora {
   hora      DateTime         @default(now())
   fecha     DateTime         @updatedAt
   mensaje   String?
+
+  @@map("bitacora")
+}
+
+model Carpeta {
+  id        Int              @id @default(autoincrement())
+  nombre    String
+  parentId  Int?
+  parent    Carpeta?         @relation("CarpetaHijos", fields: [parentId], references: [id])
+  icono     String?          @default("folder")
+  isPublic  Boolean          @default(false)
+  ruta      String?
+  children  Carpeta[]        @relation("CarpetaHijos")
+  archivos  Archivo[]
+  usuarios  UsuarioCarpeta[]
+  rootUsers Usuario[]        @relation("CarpetaRoot")
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@map("carpeta")
+}
+
+model Archivo {
+  id         Int              @id @default(autoincrement())
+  carpetaId  Int
+  nombre     String
+  tipo       String
+  isPublic   Boolean          @default(false)
+  optimizado Boolean          @default(false)
+  carpeta    Carpeta          @relation(fields: [carpetaId], references: [id])
+  size       Int?
+  usuarios   UsuarioArchivo[]
+  rutas      Ruta[]
+  createdAt  DateTime         @default(now())
+  updatedAt  DateTime         @updatedAt
+
+  @@map("archivo")
+}
+
+model Ruta {
+  id         Int     @id @default(autoincrement())
+  archivoId  Int
+  archivo    Archivo @relation(fields: [archivoId], references: [id])
+  url        String
+  url_base64 String?
+  url_thumb  String?
+  url_optima String?
+
+  @@map("ruta")
+}
+
+model UsuarioCarpeta {
+  usuarioId Int
+  carpetaId Int
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  carpeta   Carpeta @relation(fields: [carpetaId], references: [id])
+
+  @@id([usuarioId, carpetaId])
+  @@map("usuariocarpeta")
+}
+
+model UsuarioArchivo {
+  usuarioId Int
+  archivoId Int
+  usuario   Usuario @relation(fields: [usuarioId], references: [id])
+  archivo   Archivo @relation(fields: [archivoId], references: [id])
+
+  @@id([usuarioId, archivoId])
+  @@map("usuarioarchivo")
 }
 
 enum AccionesBitacora {
