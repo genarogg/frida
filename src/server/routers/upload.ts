@@ -2,8 +2,6 @@ import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import type { MultipartFile } from '@fastify/multipart';
 import { promises as fs } from 'fs';
 import path from 'path';
-import { pipeline } from 'stream/promises';
-import { createWriteStream } from 'fs';
 
 // Configuración
 const UPLOAD_DIR = './uploads'; // Directorio base donde se guardarán las carpetas
