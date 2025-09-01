@@ -723,9 +723,10 @@ interface SelectItemProps {
   value: string
   children: React.ReactNode
   disabled?: boolean
+  check?: boolean
 }
 
-export const SelectItem = memo(function SelectItem({ value, children, disabled }: SelectItemProps) {
+export const SelectItem = memo(function SelectItem({ value, children, disabled, check = true }: SelectItemProps) {
   const { value: selectedValue, onValueChange, multiple, setSelectedLabel, registerOption } = useSelectContext()
 
   const isSelected = useMemo(() => {
@@ -797,7 +798,7 @@ export const SelectItem = memo(function SelectItem({ value, children, disabled }
         </div>
       )}
       {children}
-      {!multiple && isSelected && <Check className="select-item-indicator" />}
+      {!multiple && isSelected && check && <Check className="select-item-indicator" />}
     </div>
   )
 })

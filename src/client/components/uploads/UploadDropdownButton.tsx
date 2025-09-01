@@ -20,7 +20,7 @@ export function UploadSelectButton({ className = "" }: UploadSelectButtonProps) 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const folderInputRef = useRef<HTMLInputElement>(null)
   const { upload } = useUploadStore()
-  const [selectValue, setSelectValue] = useState<string>("")
+  const [selectValue, setSelectValue] = useState<any>("")
 
   const handleFileUpload = () => {
     fileInputRef.current?.click()
@@ -46,6 +46,7 @@ export function UploadSelectButton({ className = "" }: UploadSelectButtonProps) 
   const handleSelectChange = (value: string | string[]) => {
     if (typeof value === "string") {
       setSelectValue(value)
+
       switch (value) {
         case "file":
           handleFileUpload()
@@ -60,19 +61,19 @@ export function UploadSelectButton({ className = "" }: UploadSelectButtonProps) 
   return (
     <>
       <Select onValueChange={handleSelectChange} width={160}>
-        <SelectTrigger>
+        <SelectTrigger >
           <Upload size={16} style={{ marginRight: "10px" }} />
           <SelectValue placeholder="Subir" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="file">
+          <SelectItem value="file" check={false}>
             <FileUp size={16} style={{ marginRight: "10px" }} />
             Subir Archivo
           </SelectItem>
-          <SelectItem value="folder">
+          <SelectItem value="folder" check={false}>
             <FolderUp size={16} style={{ marginRight: "10px" }} />
             Subir Carpeta
-          </SelectItem>
+          </SelectItem >
         </SelectContent>
       </Select>
 
