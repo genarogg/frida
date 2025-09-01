@@ -17,6 +17,7 @@ import BtnRowCircle from "./btns/btn-row-circle";
 import BtnLoki from "./btns/btn-loki";
 import BtnFreya from "./btns/btn-freya";
 import BtnThor from "./btns/btn-thor";
+import { Button, TooltipWrapper, Dropdown, DropdownItem } from "./btns/btn-radix";
 
 
 import Spinner from "./spinner/Spinner";
@@ -66,5 +67,6 @@ export {
     InputFile,
     InputList,
     BtnFreya,
-    BtnThor
+    BtnThor,
+    Button, TooltipWrapper, Dropdown, DropdownItem
 }

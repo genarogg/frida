@@ -6,7 +6,7 @@ import DashboardHeader from "./Header"
 import DashboardSidebar from "./Sidebar"
 import DashboardContent from "./Main"
 
-import { DragDropWrapper } from "../uploads"
+import { DragDropWrapper, ProgressModal } from "../uploads"
 
 interface DashboardLayoutProps {
   children?: React.ReactNode
@@ -43,6 +43,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
 
   return (
     <div className="dashboard-container">
+      <ProgressModal />
       <DashboardSidebar
         isOpen={isSidebarOpen}
         activePage={activePage}

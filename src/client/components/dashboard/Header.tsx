@@ -1,5 +1,6 @@
 "use client"
-import BtnLoki from "../ux/btns/btn-loki"
+import { BtnLoki, Button } from "../ux"
+import { UploadSelectButton } from "../uploads"
 
 interface DashboardHeaderProps {
   onToggleSidebar: () => void
@@ -14,6 +15,7 @@ export default function DashboardHeader({ onToggleSidebar }: DashboardHeaderProp
           <h1>Panel de Control</h1>
         </div>
         <div className="header-actions">
+          <UploadSelectButton />
           <button className="notification-btn">🔔</button>
           <div className="user-profile">
             <span>Usuario</span>
