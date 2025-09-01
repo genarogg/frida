@@ -45,13 +45,11 @@ export function UploadSelectButton({ className = "" }: UploadSelectButtonProps) 
 
   const handleSelectChange = (value: string | string[]) => {
     if (typeof value === "string") {
-      setSelectValue(value)
-
       switch (value) {
-        case "file":
+        case "archivo":
           handleFileUpload()
           break
-        case "folder":
+        case "carpeta":
           handleFolderUpload()
           break
       }
@@ -66,11 +64,11 @@ export function UploadSelectButton({ className = "" }: UploadSelectButtonProps) 
           <SelectValue placeholder="Subir" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="file" check={false}>
+          <SelectItem value="archivo" check={false}>
             <FileUp size={16} style={{ marginRight: "10px" }} />
             Subir Archivo
           </SelectItem>
-          <SelectItem value="folder" check={false}>
+          <SelectItem value="carpeta" check={false}>
             <FolderUp size={16} style={{ marginRight: "10px" }} />
             Subir Carpeta
           </SelectItem >
