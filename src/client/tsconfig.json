@@ -12,7 +12,8 @@
     "module": "ESNext",
     "moduleResolution": "bundler",
     "noEmit": true,
-    "target": "ES2023"
+    "target": "ES2023",
+    
   },
   "include": [
     "**/*"

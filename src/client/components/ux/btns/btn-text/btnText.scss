@@ -1,0 +1,25 @@
+@import "../../../../sass/global/variables";
+@import "../../../../sass/global/mixin";
+
+.btn-text {
+  @include center-x;
+
+  button {
+    background-color: transparent;
+    border: none;
+    color: $color-secondary;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    outline: none;
+    transition: all ease 500ms;
+    span {
+      text-decoration: none;
+    }
+
+    &:active {
+      color: $color-secondary;
+      transform: scale(0.9);
+    }
+  }
+}

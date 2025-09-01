@@ -1,0 +1,36 @@
+.btn-freya {
+  border: none;
+  outline: none;
+  background-color: transparent;
+}
+.btn-freya span {
+  color: #ffac32;
+  display: block;
+  border-top: 0.125rem solid;
+  width: 20px;
+}
+
+.btn-freya span::after,
+.btn-freya span::before {
+  content: "";
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: currentColor;
+  margin-top: 5px;
+  transition: 0.5s;
+  position: relative;
+}
+
+.btn-freya.active span {
+  border-top-color: transparent;
+}
+
+.btn-freya.active span::before {
+  transform: rotate(135deg);
+}
+
+.btn-freya.active span::after {
+  transform: rotate(-135deg);
+  top: -0.4375rem;
+}

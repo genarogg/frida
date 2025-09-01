@@ -1,0 +1,327 @@
+/* Upload Button Styles */
+.upload-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.upload-button:hover {
+  background-color: #2563eb;
+}
+
+.upload-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.upload-button-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.upload-input {
+  display: none;
+}
+
+/* Drag & Drop Wrapper Styles */
+.drag-drop-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.drag-drop-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 2px dashed #3b82f6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.drag-drop-overlay.active {
+  background-color: rgba(59, 130, 246, 0.2);
+  border-color: #2563eb;
+}
+
+.drag-drop-text {
+  color: #3b82f6;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Folder Drop Wrapper Styles */
+.folder-drop-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  transition: border-color 0.2s ease;
+}
+
+.folder-drop-wrapper:hover {
+  border-color: #d1d5db;
+}
+
+.folder-drop-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(59, 130, 246, 0.1);
+  border: 2px dashed #3b82f6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.folder-drop-overlay.active {
+  background-color: rgba(59, 130, 246, 0.2);
+  border-color: #2563eb;
+}
+
+.folder-drop-text {
+  color: #3b82f6;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.folder-icon {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.folder-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.folder-path {
+  font-size: 12px;
+  color: #6b7280;
+  font-family: monospace;
+  background-color: #f9fafb;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+/* Upload Dropdown Button Styles */
+.upload-dropdown-container {
+  position: relative;
+  display: inline-block;
+}
+
+.upload-dropdown-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.upload-dropdown-button:hover {
+  background-color: #2563eb;
+}
+
+.upload-dropdown-button:disabled {
+  background-color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.dropdown-arrow {
+  width: 16px;
+  height: 16px;
+  margin-left: 4px;
+}
+
+.upload-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.upload-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-align: left;
+}
+
+.upload-dropdown-item:hover {
+  background-color: #f9fafb;
+}
+
+.upload-dropdown-item:first-child {
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.dropdown-item-icon {
+  width: 16px;
+  height: 16px;
+  color: #6b7280;
+}
+
+/* Progress Modal Styles */
+.progress-modal {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 320px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e5e7eb;
+  z-index: 10000;
+  overflow: hidden;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.progress-modal.visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.progress-modal-header {
+  padding: 16px 20px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-modal-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: #111827;
+  margin: 0;
+}
+
+.progress-modal-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.progress-modal-close:hover {
+  background-color: #f3f4f6;
+}
+
+.progress-modal-body {
+  padding: 16px 20px 20px;
+}
+
+.progress-bar-container {
+  margin-bottom: 12px;
+}
+
+.progress-bar-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 14px;
+  color: #374151;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background-color: #f3f4f6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background-color: #3b82f6;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-status {
+  font-size: 12px;
+  color: #6b7280;
+  margin-top: 8px;
+}
+
+.progress-error {
+  color: #dc2626;
+  background-color: #fef2f2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-top: 8px;
+}
+
+.progress-success {
+  color: #059669;
+  background-color: #f0fdf4;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-top: 8px;
+}

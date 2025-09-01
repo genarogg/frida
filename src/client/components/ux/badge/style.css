@@ -1,0 +1,106 @@
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none;
+  min-width: 80px;
+  height: 22px;
+  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+}
+
+.status-badge__text {
+  color: white;
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Predefined variant colors */
+.status-badge--success {
+  background-color: #22c55e;
+}
+
+.status-badge--warning {
+  background-color: #f59e0b;
+}
+
+.status-badge--error {
+  background-color: #ef4444;
+}
+
+.status-badge--info {
+  background-color: #3b82f6;
+}
+
+.status-badge--primary {
+  background-color: #8b5cf6;
+}
+
+.status-badge--secondary {
+  background-color: #6b7280;
+}
+
+/* Clickable state */
+.status-badge--clickable {
+  cursor: pointer;
+}
+
+.status-badge--clickable:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.status-badge--clickable:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.status-badge--clickable:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3);
+}
+
+/* Hover effects for predefined variants */
+.status-badge--success.status-badge--clickable:hover {
+  background-color: #16a34a;
+}
+
+.status-badge--warning.status-badge--clickable:hover {
+  background-color: #d97706;
+}
+
+.status-badge--error.status-badge--clickable:hover {
+  background-color: #dc2626;
+}
+
+.status-badge--info.status-badge--clickable:hover {
+  background-color: #2563eb;
+}
+
+.status-badge--primary.status-badge--clickable:hover {
+  background-color: #7c3aed;
+}
+
+.status-badge--secondary.status-badge--clickable:hover {
+  background-color: #4b5563;
+}
+
+/* Responsive design */
+/* @media (max-width: 768px) {
+  .status-badge {
+    font-size: 12px;
+    padding: 6px 16px;
+    min-width: 70px;
+    height: 22px;
+  }
+} */

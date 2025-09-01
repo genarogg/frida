@@ -1,0 +1,52 @@
+@keyframes border-gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.btn-normal-basic {
+  display: flex;
+  justify-content: center;
+  height: 42px;
+  position: relative;
+  width: 100%;
+}
+.btn-normal-basic,
+.btn-normal-basic * {
+  transition: 500ms ease all;
+}
+.btn-normal-basic button {
+  background-color: transparent;
+  border: 1px solid rgba(28, 28, 28, 0.5);
+  border-radius: 6px;
+  color: #ffac32;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  height: 100%;
+  max-width: calc(333px / 1.5);
+  outline: none;
+  position: relative;
+  width: 100%;
+}
+.btn-normal-basic button:active {
+  background-color: #ffac32;
+  transform: scale(0.9);
+  color: #fff;
+}
+.btn-normal-basic button:disabled {
+  background-color: #ffac32;
+}
+.btn-normal-basic button:focus {
+  background-color: #ffac32;
+  color: #fff;
+}
+.btn-normal-basic button:hover {
+  background-color: #ffac32;
+  color: #fff;
+}

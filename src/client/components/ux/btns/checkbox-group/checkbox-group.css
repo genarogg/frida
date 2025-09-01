@@ -1,0 +1,245 @@
+.checkbox-group {
+  width: 100%;
+}
+
+.checkbox-group--disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.checkbox-group__header {
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.checkbox-group__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.checkbox-group__subtitle {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.checkbox-group__counter {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: #f3f4f6;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+.counter--max {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.checkbox-group__options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checkbox-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  background: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.checkbox-option:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  background: #f8fafc;
+}
+
+.checkbox-option--selected {
+  border-color: #2563eb;
+  background: #eff6ff;
+  box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
+}
+
+.checkbox-option--disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  background: #f9fafb;
+}
+
+.checkbox-option--disabled:hover {
+  border-color: #e5e7eb;
+  box-shadow: none;
+  background: #f9fafb;
+}
+
+/* Estilos específicos para el botón de seleccionar todos */
+.select-all-option {
+  border-style: dashed;
+  border-color: #9ca3af;
+  background: #f9fafb;
+}
+
+.select-all-option:hover {
+  border-color: #6b7280;
+  background: #f3f4f6;
+}
+
+.select-all-option.checkbox-option--selected {
+  border-style: solid;
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.select-all-limit {
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 400;
+  margin-left: 8px;
+}
+
+.select-all-indicator {
+  background: #8b5cf6;
+}
+
+.checkbox-option__checkbox {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.checkbox-option--selected .checkbox-option__checkbox {
+  border-color: #2563eb;
+}
+
+.checkbox-option__fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-radius: 4px;
+}
+
+.checkbox-option__checkmark {
+  position: relative;
+  z-index: 2;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox-option__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.checkbox-option__label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checkbox-option__mode {
+  font-size: 0.75rem;
+  color: #6b7280;
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 400;
+}
+
+.checkbox-option__description {
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.checkbox-option__description svg {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.checkbox-option__indicator {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 24px;
+  height: 24px;
+  background: #10b981;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.checkbox-group__warning {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: #fef3c7;
+  border: 1px solid #f59e0b;
+  border-radius: 8px;
+  color: #92400e;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 640px) {
+  .checkbox-option {
+    padding: 12px;
+  }
+
+  .checkbox-group__counter {
+    position: static;
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  .checkbox-option__label {
+    font-size: 0.9rem;
+  }
+
+  .checkbox-option__description {
+    font-size: 0.8rem;
+  }
+}

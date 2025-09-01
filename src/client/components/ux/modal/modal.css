@@ -1,0 +1,362 @@
+@charset "UTF-8";
+/* Estilos para el botón trigger */
+.modal-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  color: white;
+  background-color: #020817;
+  height: 40px;
+  min-height: 40px;
+  max-height: 40px;
+}
+
+.modal-trigger:focus {
+  outline-offset: 2px;
+  outline: 2px solid #020817;
+}
+
+.modal-trigger-icon {
+  display: flex;
+  align-items: center;
+}
+
+.modal-trigger-icon-only {
+  width: 40px;
+  height: 40px;
+  max-width: 40px;
+  min-width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Estilos para el overlay del modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(243, 244, 246, 0.8);
+  backdrop-filter: blur(2px);
+  z-index: 1000;
+  animation: overlayShow 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Animación de cierre para el overlay */
+.modal-overlay-closing {
+  animation: overlayHide 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Estilos para el contenido del modal */
+.modal-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: contentShow 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+/* Animación de cierre para el contenido */
+.modal-content-closing {
+  animation: contentHide 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Animaciones de entrada y salida */
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes overlayHide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes contentShow {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes contentHide {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -48%) scale(0.96);
+  }
+}
+/* Header del modal */
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  z-index: 100;
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #000;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-title-icon {
+  display: flex;
+  align-items: center;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+  height: 25px;
+  width: 25px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-close:hover,
+.modal-close:focus,
+.modal-close:active {
+  color: #020817;
+  outline-offset: 2px;
+  outline: 2px solid #020817;
+}
+
+/* Body del modal */
+.modal-body {
+  padding: 0 24px 16px;
+}
+
+/* Footer del modal con botones */
+.modal-footer {
+  padding: 16px 24px 24px;
+}
+
+/* Contenedor de botones del footer */
+.modal-footer-buttons {
+  display: flex;
+  gap: 12px;
+  /* Cuando solo hay un botón (guardar) */
+  /* Cuando hay dos botones (cancelar y guardar) */
+}
+.modal-footer-buttons:not(.modal-footer-buttons-with-cancel) .modal-save-button {
+  width: 100%;
+}
+.modal-footer-buttons.modal-footer-buttons-with-cancel .modal-cancel-button,
+.modal-footer-buttons.modal-footer-buttons-with-cancel .modal-save-button {
+  flex: 1;
+}
+
+/* Botón de guardar */
+.modal-save-button {
+  padding: 12px 16px;
+  background-color: #020817;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.modal-save-button:hover {
+  background-color: #0f172a;
+}
+
+.modal-save-button:focus {
+  outline-offset: 2px;
+  outline: 2px solid #020817;
+}
+
+/* Botón de cancelar */
+.modal-cancel-button {
+  padding: 12px 16px;
+  background-color: #6b7280;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.modal-cancel-button:hover {
+  background-color: #4b5563;
+}
+
+.modal-cancel-button:focus {
+  outline-offset: 2px;
+  outline: 2px solid #020817;
+}
+
+/* Estilos para los inputs */
+.modal-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 14px;
+  margin-bottom: 16px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: #020817;
+  box-shadow: 0 0 0 1px rgba(2, 8, 23, 0.1);
+}
+
+.modal-label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  color: #333;
+}
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  .modal-content {
+    width: 95%;
+    margin: 20px;
+  }
+
+  .modal-header {
+    padding: 16px 20px 12px;
+  }
+
+  .modal-body {
+    padding: 0 20px 12px;
+  }
+
+  .modal-footer {
+    padding: 12px 20px 20px;
+  }
+
+  .modal-title {
+    font-size: 16px;
+  }
+
+  /* En móvil, los botones se apilan verticalmente */
+  .modal-footer-buttons.modal-footer-buttons-with-cancel {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .modal-footer-buttons.modal-footer-buttons-with-cancel .modal-cancel-button,
+  .modal-footer-buttons.modal-footer-buttons-with-cancel .modal-save-button {
+    width: 100%;
+  }
+}
+/* Variantes de botones */
+.modal-trigger.outline {
+  background-color: transparent;
+  color: #020817;
+  border: 1px solid #020817;
+}
+
+.modal-trigger.outline:hover {
+  background-color: #020817;
+  color: white;
+}
+
+.modal-trigger.secondary {
+  background-color: #6c757d;
+  color: white;
+}
+
+.modal-trigger.secondary:hover {
+  background-color: #545b62;
+}
+
+.modal-trigger.danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.modal-trigger.danger:hover {
+  background-color: #c82333;
+}
+
+/* Mensaje de información */
+.modal-info-message {
+  color: #718096;
+  font-size: 14px;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* Grupo de input con botón */
+.modal-input-group {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.modal-input-group .modal-input {
+  margin-bottom: 0;
+  flex-grow: 1;
+}
+
+.modal-input-group-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #e2e8f0;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 20px;
+  color: #4a5568;
+  transition: background-color 0.2s ease;
+}
+
+.modal-input-group-button:hover {
+  background-color: #cbd5e0;
+}

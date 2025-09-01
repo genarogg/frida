@@ -1,0 +1,81 @@
+@import "../../../../sass/global/variables";
+
+$hamburguer-size: 50px;
+$bar-width: 32px;
+$bar-height: 3px;
+$bar-color: $color-secondary;
+$transition-duration: 0.2s;
+$hover-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1);
+
+.btn-thor {
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+
+  width: $hamburguer-size;
+  height: $hamburguer-size;
+  transition: $transition-duration;
+
+  &:active,
+  &:focus {
+    outline: none;
+  }
+
+  .hamburguer {
+    width: $bar-width;
+    height: 25px;
+    transition: 0.4s;
+
+    &,
+    .bar {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      margin: auto;
+    }
+
+    .bar {
+      width: $bar-width;
+      height: $bar-height;
+      background: $bar-color;
+      transition: $transition-duration;
+      outline: 1px solid transparent;
+
+      &-1 {
+        transform: rotate(0) translate3d(0, -10px, 0);
+      }
+
+      &-3 {
+        transform: rotate(0) translate3d(0, 10px, 0);
+      }
+    }
+  }
+
+  &.active {
+    .hamburguer {
+      transform: rotate(180deg);
+
+      .bar-1 {
+        transform: rotate(45deg) translate3d(0, 0, 0);
+      }
+
+      .bar-2 {
+        opacity: 0;
+      }
+
+      .bar-3 {
+        transform: rotate(-45deg) translate3d(0, 0, 0);
+      }
+    }
+  }
+}

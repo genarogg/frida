@@ -1,0 +1,57 @@
+.btn-thor {
+  position: relative;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  transition: 0.2s;
+}
+.btn-thor:active, .btn-thor:focus {
+  outline: none;
+}
+.btn-thor .hamburguer {
+  width: 32px;
+  height: 25px;
+  transition: 0.4s;
+}
+.btn-thor .hamburguer,
+.btn-thor .hamburguer .bar {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+.btn-thor .hamburguer .bar {
+  width: 32px;
+  height: 3px;
+  background: #ffac32;
+  transition: 0.2s;
+  outline: 1px solid transparent;
+}
+.btn-thor .hamburguer .bar-1 {
+  transform: rotate(0) translate3d(0, -10px, 0);
+}
+.btn-thor .hamburguer .bar-3 {
+  transform: rotate(0) translate3d(0, 10px, 0);
+}
+.btn-thor.active .hamburguer {
+  transform: rotate(180deg);
+}
+.btn-thor.active .hamburguer .bar-1 {
+  transform: rotate(45deg) translate3d(0, 0, 0);
+}
+.btn-thor.active .hamburguer .bar-2 {
+  opacity: 0;
+}
+.btn-thor.active .hamburguer .bar-3 {
+  transform: rotate(-45deg) translate3d(0, 0, 0);
+}

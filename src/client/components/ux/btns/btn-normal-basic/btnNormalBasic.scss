@@ -1,0 +1,50 @@
+@import "../../../../sass/global/variables";
+@import "../../../../sass/global/mixin";
+
+.btn-normal-basic {
+  @include center-x();
+  height: 42px;
+  position: relative;
+  width: 100%;
+
+  &,
+  * {
+    transition: 500ms ease all;
+  }
+
+  button {
+    background-color: transparent;
+    border: 1px solid $border-color;
+    border-radius: $border-radius;
+
+    color: $color-secondary;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: 600;
+    height: 100%;
+    max-width: calc(333px / 1.5);
+    outline: none;
+    position: relative;
+    width: 100%;
+
+    &:active {
+      background-color: rgba($color-secondary, 7);
+      transform: scale(0.9);
+      color: $text-color-white;
+    }
+
+    &:disabled {
+      background-color: rgba($color-secondary, 3);
+    }
+
+    &:focus {
+      background-color: rgba($color-secondary, 7);
+      color: $text-color-white;
+    }
+
+    &:hover {
+      background-color: rgba($color-secondary, 7);
+      color: $text-color-white;
+    }
+  }
+}

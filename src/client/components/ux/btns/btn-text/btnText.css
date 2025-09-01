@@ -1,0 +1,32 @@
+@keyframes border-gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+.btn-text {
+  display: flex;
+  justify-content: center;
+}
+.btn-text button {
+  background-color: transparent;
+  border: none;
+  color: #ffac32;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  outline: none;
+  transition: all ease 500ms;
+}
+.btn-text button span {
+  text-decoration: none;
+}
+.btn-text button:active {
+  color: #ffac32;
+  transform: scale(0.9);
+}

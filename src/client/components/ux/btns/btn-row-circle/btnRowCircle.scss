@@ -1,0 +1,71 @@
+@import "../../../../sass/global/variables";
+@import "../../../../sass/global/mixin";
+
+.container-row-circle {
+    color: #fff;
+    position: relative;
+
+    &.active {
+        button {
+            &:before {
+                animation: circle 0.6s 0.6s forwards;
+                border: 4px solid transparent;
+                border-radius: 50%;
+                content: "";
+                height: 24px;
+                position: absolute;
+                transform: translate(-50%, -50%);
+                width: 24px;
+                color: $color-secondary;
+                top: -6px;
+
+            }
+
+            .icon {
+                color: $color-secondary;
+                display: block;
+            }
+        }
+    }
+
+    button {
+        position: absolute;
+        left: 0;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: 600;
+        outline: none;
+        transform: translateY(50%);
+
+        @include center-flex-xy;
+        align-items: flex-end;
+
+
+    }
+
+    @keyframes circle {
+        0% {
+            border-color: transparent;
+            transform: rotate(0deg);
+        }
+
+        25% {
+            border-color: transparent #63459b transparent transparent;
+        }
+
+        50% {
+            border-color: transparent #63459b #63459b transparent;
+        }
+
+        75% {
+            border-color: transparent #63459b #63459b;
+        }
+
+        to {
+            border-color: #63459b;
+            transform: rotate(-700deg);
+        }
+    }
+}

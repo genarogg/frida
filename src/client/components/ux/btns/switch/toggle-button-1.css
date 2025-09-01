@@ -1,0 +1,53 @@
+.toggle-btn-1 {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  outline: none;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.toggle-btn-1:focus {
+  /* box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.3); */
+}
+
+.toggle-btn-1--off {
+  background: linear-gradient(135deg, #e2e8f0, #cbd5e1);
+}
+
+.toggle-btn-1--on {
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+}
+
+.toggle-btn-1__circle {
+  position: absolute;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15); */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toggle-btn-1--off .toggle-btn-1__circle {
+  left: 2px;
+  transform: translateX(0);
+}
+
+.toggle-btn-1--on .toggle-btn-1__circle {
+  left: -6px;
+  transform: translateX(28px);
+  /* box-shadow: 0 2px 8px rgba(139, 92, 246, 0.3); */
+}
+
+.toggle-btn-1:hover .toggle-btn-1__circle {
+  /* box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); */
+}
+
+.toggle-btn-1:active {
+  transform: scale(0.98);
+}

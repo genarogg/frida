@@ -1,0 +1,145 @@
+.input-wrapper {
+  margin-bottom: 40px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.input-wrapper .container-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  min-width: 333px;
+  height: 46px;
+  position: relative;
+  width: 100%;
+
+
+
+  &:hover {
+    border: 1px solid #e5eaf1;
+  }
+
+  &:focus-within {
+    outline-offset: 2px;
+    outline: 2px solid #020817;
+  }
+
+  &.focus {
+    border: 1px solid #e5eaf1;
+    outline-offset: 2px;
+    outline: 2px solid #020817;
+
+    span.holder {
+      font-size: 14px;
+      font-weight: 600;
+      top: -20px !important;
+    }
+  }
+
+  &.no-icon {
+    span.holder {
+      left: 0px;
+
+      &.has-content {
+        font-size: 14px;
+        left: -8px;
+      }
+    }
+  }
+
+  &.icon-placehorder {
+    span.holder {
+      left: 0px;
+      padding: 0;
+      display: flex;
+    }
+
+    .label-ico {
+      width: 34px;
+    }
+  }
+
+  .label-ico,
+  .view-pass {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: inherit;
+    width: 46px;
+
+    .icon {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      color: #111827;
+      cursor: pointer;
+    }
+  }
+
+  input {
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    height: 100%;
+    outline: none;
+    padding: 0 10px;
+    position: relative;
+    width: 100%;
+    color: #111827;
+
+    &:focus {
+      outline: none;
+    }
+
+    &[type="date"] {
+      cursor: pointer;
+
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+      }
+
+      &::-ms-expand {
+        display: none;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        width: 0;
+        height: 0;
+        pointer-events: none;
+      }
+    }
+  }
+
+  span.holder {
+    background-color: #ffffff;
+    backdrop-filter: blur(10px);
+    color: #111827;
+    font-size: 16px;
+    left: 40px;
+    padding: 0 10px;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    top: 23px;
+    transform: translateY(-50%);
+    transition: 0.3s;
+
+    &.has-content {
+      font-size: 14px;
+      font-weight: 500;
+      top: -20px !important;
+    }
+  }
+}

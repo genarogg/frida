@@ -1,0 +1,25 @@
+// PARA QUE FUNCIONE EL ELEMENTO DEBE TENER POSICION RELATIVA
+
+button.btn-expancion {
+  position: relative;
+
+  &.ripple-active {
+    box-shadow: 0px 7px 20px 0px rgba(#000, 0.4);
+  }
+
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(#fff, 0.5);
+    transform: scale(0);
+    animation: ripple 2s linear;
+    pointer-events: none;
+  }
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(4);
+    opacity: 0;
+  }
+}
