@@ -18,11 +18,13 @@ import {
   underPressureFastify,
   corsFastify,
   compressFastify,
-  reactView
+  reactView,
+  multipar
 } from "./src/server/config"
 
 const registerPlugins = async () => {
   await viewEJS(server);
+  multipar(server);
   await staticFiles(server);
   graphql(server);
   await corsFastify(server);

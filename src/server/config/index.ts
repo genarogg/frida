@@ -13,6 +13,8 @@ import compressFastify from './plugin/compressFastify';
 import reactView from './plugin/reactView';
 import dbConection from './db-conection';
 
+import multipar from './plugin/multipar';
+
 
 
 export {
@@ -27,5 +29,6 @@ export {
     slowDownFastify,
     compressFastify,
     reactView,
+    multipar,
     dbConection,
 }
