@@ -5,7 +5,7 @@ import colors from "colors";
 import 'dotenv/config';
 
 const { PORT } = process.env;
-const server: FastifyInstance = Fastify({ logger: true })
+const server: FastifyInstance = Fastify()
 
 import {
   dbConection,
@@ -24,7 +24,7 @@ import {
 
 const registerPlugins = async () => {
   await viewEJS(server);
-  multipar(server);
+  await multipar(server);
   await staticFiles(server);
   graphql(server);
   await corsFastify(server);
