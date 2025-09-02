@@ -23,30 +23,40 @@ import {
 } from "./src/server/config"
 
 const registerPlugins = async () => {
-  await viewEJS(server);
-  await multipar(server);
-  await staticFiles(server);
-  graphql(server);
+  // Plugins de configuración básica primero
+  await helmet(server);
   await corsFastify(server);
+  await compressFastify(server);
+  
+  // Plugins de parsing
+  await multipar(server);
+  
+  // Plugins de vista y archivos estáticos
+  await viewEJS(server);
+  await staticFiles(server);
   await reactView(server);
-
+  
+  // Plugins de funcionalidad
+  await graphql(server);
+  
+  // Plugins de rendimiento (en producción)
   if (process.env.NODE_ENV === "production") {
     await underPressureFastify(server);
-    await caching(server)
+    await caching(server);
     await rateLimit(server);
-    await helmet(server);
-    await compressFastify(server);
   }
 }
-import { uploadRouter } from "./src/server/routers/index"
-server.register(uploadRouter, { prefix: '/' })
 
+import { uploadRouter } from "./src/server/routers/index"
 import tack from "./src/server/tasks"
 
 (async () => {
   clear();
   try {
     await registerPlugins()
+
+    server.register(uploadRouter, { prefix: '/' })
+    
     const port = Number(PORT) || 3500
     const dbStatus = await dbConection() || "";
     await server.listen({ port, host: '0.0.0.0' });
