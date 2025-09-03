@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "bun --hot index.ts",
+    "dex": "tsx -r tsconfig-paths/register index.ts",
     "start": "node dist/index.js",
     "devs": "npm run prisma && npm run dev",
     "prisma": "npx prisma generate && npx prisma migrate dev",
