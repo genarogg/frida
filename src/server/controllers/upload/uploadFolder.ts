@@ -1,12 +1,9 @@
 import type { FastifyRequest, FastifyReply } from 'fastify';
-import { promises as fs } from 'fs';
-
-import { verificarToken, successResponse, errorResponse } from '@fn';
+import { verificarToken, successResponse } from '@fn';
 import { validateEnvironment } from './fn-uploadFolder/validateEnvironment.js';
 import { saveToDisk, saveToDatabase, cleanupOnError, handleUploadError } from './fn-uploadFolder';
 
 const {
-
     UPLOAD_TIMEOUT: envUploadTimeout = '300000'
 } = process.env;
 

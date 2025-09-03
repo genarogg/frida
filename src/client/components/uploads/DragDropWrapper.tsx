@@ -23,6 +23,93 @@ export const DragDropWrapper: React.FC<DragDropWrapperProps> = ({
   const { upload, isUploading } = useUploadStore()
   const wrapperRef = useRef<HTMLDivElement>(null)
 
+  // Función para procesar archivos de carpetas recursivamente
+  const processDirectoryEntry = useCallback(
+    async (entry: FileSystemDirectoryEntry): Promise<File[]> => {
+      const files: File[] = []
+      
+      return new Promise((resolve) => {
+        const reader = entry.createReader()
+        
+        const readEntries = () => {
+          reader.readEntries(async (entries) => {
+            if (entries.length === 0) {
+              resolve(files)
+              return
+            }
+
+            const promises = entries.map(async (entry) => {
+              if (entry.isFile) {
+                return new Promise<File>((resolveFile) => {
+                  (entry as FileSystemFileEntry).file((file) => {
+                    resolveFile(file)
+                  })
+                })
+              } else if (entry.isDirectory) {
+                return processDirectoryEntry(entry as FileSystemDirectoryEntry)
+              }
+              return []
+            })
+
+            const results = await Promise.all(promises)
+            results.forEach((result) => {
+              if (Array.isArray(result)) {
+                files.push(...result)
+              } else {
+                files.push(result)
+              }
+            })
+
+            readEntries() // Continuar leyendo si hay más entradas
+          })
+        }
+
+        readEntries()
+      })
+    },
+    []
+  )
+
+  // Función para procesar todos los elementos arrastrados
+  const processDataTransferItems = useCallback(
+    async (items: DataTransferItemList): Promise<File[]> => {
+      const files: File[] = []
+      const promises: Promise<File[]>[] = []
+
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i]
+        
+        if (item.kind === 'file') {
+          const entry = item.webkitGetAsEntry()
+          
+          if (entry) {
+            if (entry.isFile) {
+              // Es un archivo individual
+              promises.push(
+                new Promise((resolve) => {
+                  (entry as FileSystemFileEntry).file((file) => {
+                    resolve([file])
+                  })
+                })
+              )
+            } else if (entry.isDirectory) {
+              // Es una carpeta
+              promises.push(processDirectoryEntry(entry as FileSystemDirectoryEntry))
+            }
+          }
+        }
+      }
+
+      const results = await Promise.all(promises)
+      results.forEach((result) => {
+        files.push(...result)
+      })
+
+      return files
+    },
+    [processDirectoryEntry]
+  )
+
   const handleDragEnter = useCallback(
     (e: React.DragEvent) => {
       e.preventDefault()
@@ -74,35 +161,52 @@ export const DragDropWrapper: React.FC<DragDropWrapperProps> = ({
 
       if (disabled || isUploading) return
 
-      const files = e.dataTransfer.files
-      if (files && files.length > 0) {
-        // Filter files by accept type if specified
-        let filteredFiles = Array.from(files)
+      try {
+        let allFiles: File[] = []
 
-        if (accept !== "*/*") {
-          const acceptTypes = accept.split(",").map((type) => type.trim())
-          filteredFiles = filteredFiles.filter((file) => {
-            return acceptTypes.some((acceptType) => {
-              if (acceptType.startsWith(".")) {
-                return file.name.toLowerCase().endsWith(acceptType.toLowerCase())
-              }
-              if (acceptType.includes("*")) {
-                const baseType = acceptType.split("/")[0]
-                return file.type.startsWith(baseType)
-              }
-              return file.type === acceptType
+        // Procesar elementos usando webkitGetAsEntry para manejar carpetas
+        if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+          allFiles = await processDataTransferItems(e.dataTransfer.items)
+        } else {
+          // Fallback para archivos individuales si webkitGetAsEntry no está disponible
+          const files = e.dataTransfer.files
+          if (files && files.length > 0) {
+            allFiles = Array.from(files)
+          }
+        }
+
+        if (allFiles.length > 0) {
+          // Filtrar archivos por tipo si se especifica
+          let filteredFiles = allFiles
+
+          if (accept !== "*/*") {
+            const acceptTypes = accept.split(",").map((type) => type.trim())
+            filteredFiles = filteredFiles.filter((file) => {
+              return acceptTypes.some((acceptType) => {
+                if (acceptType.startsWith(".")) {
+                  return file.name.toLowerCase().endsWith(acceptType.toLowerCase())
+                }
+                if (acceptType.includes("*")) {
+                  const baseType = acceptType.split("/")[0]
+                  return file.type.startsWith(baseType)
+                }
+                return file.type === acceptType
+              })
             })
-          })
-        }
+          }
 
-        if (filteredFiles.length > 0) {
-          const fileList = new DataTransfer()
-          filteredFiles.forEach((file) => fileList.items.add(file))
-          await upload(fileList.files)
+          if (filteredFiles.length > 0) {
+            // Crear un FileList desde los archivos filtrados
+            const fileList = new DataTransfer()
+            filteredFiles.forEach((file) => fileList.items.add(file))
+            await upload(fileList.files)
+          }
         }
+      } catch (error) {
+        console.error('Error procesando archivos arrastrados:', error)
       }
     },
-    [accept, disabled, isUploading, upload],
+    [accept, disabled, isUploading, upload, processDataTransferItems],
   )
 
   const isDisabled = disabled || isUploading
@@ -124,7 +228,7 @@ export const DragDropWrapper: React.FC<DragDropWrapperProps> = ({
             <svg width="48" height="48" fill="currentColor" viewBox="0 0 24 24" style={{ marginBottom: "12px" }}>
               <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
             </svg>
-            <div>Suelta los archivos aquí</div>
+            <div>Suelta los archivos o carpetas aquí</div>
           </div>
         </div>
       )}
