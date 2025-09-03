@@ -1,6 +1,18 @@
 "use client"
-import { useState } from "react"
-import type { JSX } from "react/jsx-runtime" // Import JSX to fix the undeclared variable error
+import { useState, useEffect } from "react"
+import {
+  Folder,
+  File,
+  FileText,
+  FileImage,
+  FileVideo,
+  FileAudio,
+  FileCode,
+  Archive,
+  AlertCircle,
+  Loader2,
+} from "lucide-react"
+import type { JSX } from "react/jsx-runtime"
 
 interface FileNode {
   name: string
@@ -24,8 +36,12 @@ interface FolderStructureResponse {
 
 export default function AyudaContent() {
   const [fileStructure, setFileStructure] = useState<FolderStructureResponse | null>(null)
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetchFileStructure()
+  }, [])
 
   const fetchFileStructure = async () => {
     setLoading(true)
@@ -34,9 +50,9 @@ export default function AyudaContent() {
       const response = await fetch("http://localhost:4000/get-files", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({})
+        body: JSON.stringify({}),
       })
       if (!response.ok) {
         throw new Error(`Error: ${response.status}`)
@@ -50,99 +66,106 @@ export default function AyudaContent() {
     }
   }
 
+  const getFileIcon = (node: FileNode) => {
+    if (node.type === "folder") {
+      return <Folder className="w-4 h-4 text-blue-500" />
+    }
+
+    const extension = node.name.split(".").pop()?.toLowerCase()
+    const mimetype = node.mimetype?.toLowerCase()
+
+    if (mimetype?.startsWith("image/") || ["jpg", "jpeg", "png", "gif", "svg", "webp"].includes(extension || "")) {
+      return <FileImage className="w-4 h-4 text-green-500" />
+    }
+    if (mimetype?.startsWith("video/") || ["mp4", "avi", "mov", "wmv", "flv", "webm"].includes(extension || "")) {
+      return <FileVideo className="w-4 h-4 text-purple-500" />
+    }
+    if (mimetype?.startsWith("audio/") || ["mp3", "wav", "flac", "aac", "ogg"].includes(extension || "")) {
+      return <FileAudio className="w-4 h-4 text-orange-500" />
+    }
+    if (
+      ["js", "ts", "jsx", "tsx", "html", "css", "json", "xml", "py", "java", "cpp", "c", "php"].includes(
+        extension || "",
+      )
+    ) {
+      return <FileCode className="w-4 h-4 text-indigo-500" />
+    }
+    if (["zip", "rar", "7z", "tar", "gz"].includes(extension || "")) {
+      return <Archive className="w-4 h-4 text-yellow-500" />
+    }
+    if (["txt", "md", "doc", "docx", "pdf"].includes(extension || "")) {
+      return <FileText className="w-4 h-4 text-gray-500" />
+    }
+
+    return <File className="w-4 h-4 text-gray-400" />
+  }
+
   const renderFileNode = (node: FileNode, level = 0): JSX.Element => {
     const indent = level * 20
 
-    if (node.type === "folder") {
-      return (
-        <div key={node.path} style={{ marginLeft: `${indent}px` }}>
-          <div style={{ fontWeight: "bold", color: "#007bff", marginBottom: "4px" }}>📁 {node.name}</div>
-          {node.children?.map((child) => renderFileNode(child, level + 1))}
+    return (
+      <div key={node.path} style={{ marginLeft: `${indent}px` }} className="mb-1">
+        <div className="flex items-center gap-2">
+          {getFileIcon(node)}
+          <span className={node.type === "folder" ? "font-semibold text-blue-600" : "text-gray-700"}>{node.name}</span>
+          {node.type === "file" && node.size && (
+            <span className="text-xs text-gray-500">({(node.size / 1024).toFixed(2)} KB)</span>
+          )}
         </div>
-      )
-    } else {
-      const sizeInKB = node.size ? (node.size / 1024).toFixed(2) : "0"
-      return (
-        <div key={node.path} style={{ marginLeft: `${indent}px`, marginBottom: "2px" }}>
-          <span style={{ color: "#6c757d" }}>
-            📄 {node.name} ({sizeInKB} KB)
-          </span>
-        </div>
-      )
-    }
+        {node.children?.map((child) => renderFileNode(child, level + 1))}
+      </div>
+    )
   }
 
   return (
     <div className="main-content">
-      <h1>Centro de Ayuda</h1>
-      <p>Encuentra respuestas a tus preguntas y obtén soporte técnico.</p>
-      <div className="help-sections">
-        <div className="help-card">
-          <h3>❓ Preguntas Frecuentes</h3>
-          <ul>
-            <li>¿Cómo cambio mi contraseña?</li>
-            <li>¿Cómo genero un reporte?</li>
-            <li>¿Cómo agrego nuevos usuarios?</li>
-          </ul>
-        </div>
-        <div className="help-card">
-          <h3>📞 Contacto</h3>
-          <p>Email: soporte@dashboard.com</p>
-          <p>Teléfono: +1 234 567 8900</p>
-          <p>Horario: Lun-Vie 9:00-18:00</p>
-        </div>
-        <div className="help-card">
-          <h3>📚 Documentación</h3>
-          <p>Accede a la documentación completa y guías de usuario.</p>
-          <button className="help-btn">Ver Documentación</button>
-        </div>
-
-        <div className="help-card">
-          <h3>📁 Estructura de Archivos</h3>
-          <p>Visualiza la estructura completa de archivos del sistema.</p>
-          <button className="help-btn" onClick={fetchFileStructure} disabled={loading}>
-            {loading ? "Cargando..." : "Obtener Estructura"}
-          </button>
-
-          {error && (
-            <div
-              style={{
-                color: "red",
-                marginTop: "10px",
-                padding: "10px",
-                backgroundColor: "#ffe6e6",
-                borderRadius: "4px",
-              }}
-            >
-              Error: {error}
-            </div>
-          )}
-
-          {fileStructure && (
-            <div style={{ marginTop: "15px" }}>
-              <div style={{ marginBottom: "10px", padding: "10px", backgroundColor: "#f8f9fa", borderRadius: "4px" }}>
-                <strong>Carpeta:</strong> {fileStructure.folderName}
-                <br />
-                <strong>Total de archivos:</strong> {fileStructure.totalFiles}
-                <br />
-                <strong>Tamaño total:</strong> {(fileStructure.totalSize / 1024 / 1024).toFixed(2)} MB
-              </div>
-              <div
-                style={{
-                  maxHeight: "300px",
-                  overflowY: "auto",
-                  border: "1px solid #dee2e6",
-                  padding: "10px",
-                  borderRadius: "4px",
-                  backgroundColor: "#ffffff",
-                }}
-              >
-                {renderFileNode(fileStructure.structure)}
-              </div>
-            </div>
-          )}
-        </div>
+      <div className="flex items-center gap-2 mb-4">
+        <Folder className="w-6 h-6 text-blue-500" />
+        <h1 className="text-2xl font-bold">Estructura de Archivos</h1>
       </div>
+
+      {loading && (
+        <div className="flex items-center justify-center py-8">
+          <Loader2 className="w-6 h-6 animate-spin mr-2" />
+          <span>Cargando estructura de archivos...</span>
+        </div>
+      )}
+
+      {error && (
+        <div className="flex items-center gap-2 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+          <AlertCircle className="w-5 h-5" />
+          <span>Error: {error}</span>
+          <button
+            onClick={fetchFileStructure}
+            className="ml-auto px-3 py-1 bg-red-100 hover:bg-red-200 rounded text-sm"
+          >
+            Reintentar
+          </button>
+        </div>
+      )}
+
+      {fileStructure && (
+        <div>
+          <div className="bg-gray-50 p-4 rounded-lg mb-4 border">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+              <div>
+                <span className="font-semibold">Carpeta:</span> {fileStructure.folderName}
+              </div>
+              <div>
+                <span className="font-semibold">Total archivos:</span> {fileStructure.totalFiles}
+              </div>
+              <div>
+                <span className="font-semibold">Tamaño total:</span>{" "}
+                {(fileStructure.totalSize / 1024 / 1024).toFixed(2)} MB
+              </div>
+            </div>
+          </div>
+
+          <div className="border rounded-lg p-4 bg-white max-h-96 overflow-y-auto">
+            {renderFileNode(fileStructure.structure)}
+          </div>
+        </div>
+      )}
     </div>
   )
 }

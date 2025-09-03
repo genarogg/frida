@@ -41,6 +41,7 @@ const seedUsers = async () => {
                 data: {
                     name,
                     email,
+                    username: email,
                     password: hashedPassword,
                     rol,
                 },

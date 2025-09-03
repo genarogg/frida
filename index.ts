@@ -49,6 +49,7 @@ const registerPlugins = async () => {
 
 import { uploadRouter } from "./src/server/routers/index"
 import tack from "./src/server/tasks"
+import seed from "./src/server/seed"
 
 (async () => {
   clear();
@@ -68,6 +69,7 @@ import tack from "./src/server/tasks"
 
     /* ejecutar tareas programadas */
     tack()
+    seed()
 
     table.push(
       ['Servidor', colors.green(`http://localhost:${PORT}`)],
